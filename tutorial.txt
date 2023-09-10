@@ -1,0 +1,148 @@
+Admin Panel which should consist of Name of the product, image, MRP , Actual Price, Orders
+
+
+
+
+
+-------------------------------E M E R G E N C Y---------------------------------------------
+
+# @app.route('/admin', methods =['GET', 'POST'])
+# def update():
+#     if request.method == 'POST':
+#         product_name = request.form['product_name']
+#         product_mrp = request.form['productMRP']
+#         product_actual_price = request.form['product_actual_price']
+#         file_name = request.form['product_name']
+#         productCategory = request.form['productCategory']
+
+#         final_upload = myStock(product = product_name,mrp=product_mrp,actual_price = product_actual_price,product_category = productCategory)
+
+#         db.session.add(final_upload)
+#         db.session.commit()
+
+#     return render_template('admin.html')
+
+# @app.route('/admin', methods=['GET', 'POST'])
+# def upload_file():
+#     if request.method == 'POST':
+#         if 'file' not in request.files:
+#             return redirect(request.url)
+
+#         file = request.files['file']
+
+#         if file.filename == '':
+#             return redirect(request.url)
+
+#         if file and allowed_file(file.filename):
+#             filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#             file.save(filename)
+#             return redirect(url_for('uploaded_file', filename=file.filename))
+    
+#         return redirect(url_for('admin'))
+#     return render_template('admin.html')
+
+
+
+
+
+
+
+
+
+
+
+from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
+import os
+from flask import Flask, flash, request, redirect, url_for
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = '/Users/mehulbatra/Desktop/Programming/Python Addy/Flask/Hooman-Website/uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///admin.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class myStock(db.Model):
+    sno = db.Column(db.Integer,primary_key = True)
+    product = db.Column(db.String(200),nullable = False)
+    mrp = db.Column(db.String(200),nullable = False)
+    actual_price = db.Column(db.String(200),nullable = False)
+    product_category = db.Column(db.String(200),nullable = False)
+    file_name = db.Column(db.String(200),nullable = False)
+
+
+db.create_all()
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+
+@app.route("/", methods=["POST", "GET"])
+def home():
+
+    return render_template("index.html")
+
+
+@app.route("/about", methods=["POST", "GET"])
+def about():
+
+    return render_template("Aboutus.html")
+
+
+@app.route("/collection", methods=["POST", "GET"])
+def collection():
+
+    return render_template("collection.html")
+
+
+@app.route("/checkout", methods=["POST", "GET"])
+def checkout():
+
+    return render_template("checkout.html")
+
+
+
+@app.route('/admin', methods =['GET', 'POST'])
+def update():
+    if request.method == 'POST':
+        product_name = request.form['product_name']
+        product_mrp = request.form['productMRP']
+        product_actual_price = request.form['product_actual_price']
+        productCategory = request.form['productCategory']
+
+        final_upload = myStock(product = product_name,mrp=product_mrp,actual_price = product_actual_price,product_category = productCategory)
+
+        db.session.add(final_upload)
+        db.session.commit()
+        
+        if 'file' not in request.files:
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+            return redirect(url_for('uploaded_file', filename=file.filename))
+    
+        return redirect(url_for('admin'))
+
+    return render_template('admin.html')
+
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return f'<img src="{url_for("static", filename=os.path.join("uploads", filename))}" alt="{filename}">'
+    
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True,port=5001)

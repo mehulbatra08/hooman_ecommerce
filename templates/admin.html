@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid mt-5">
+        <h1 class='text-center'>The Hooman Admin Panel</h1>
+        
+        <!-- Product Form -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="product_name" placeholder="Enter product name">
+                    </div>
+                    <div class="form-group">
+                        <label for="productMRP">Product MRP</label>
+                        <input type="number" class="form-control" id="productMRP" name = "productMRP" placeholder="Enter product MRP">
+                    </div>
+                    <div class="form-group">
+                        <label for="productActualPrice">Product Actual Price</label>
+                        <input type="number" class="form-control" id="productActualPrice" name = "product_actual_price" placeholder="Enter actual price">
+                    </div>
+                    <div class="input-group my-2">
+                        <input type="file" class="form-control" id="inputGroupFile02" name="file">
+                        <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategory">Product Category</label>
+                        <select class="form-control" id="productCategory" name="productCategory">
+                            <option value="Food">Food</option>
+                            <option value="Dog Collar" >Dog Collar</option>
+                            <option value="Best Seller">Best Seller</option>
+                            
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary my-2">Add Product</button>
+                </form>
+            </div>
+            <!-- Product List -->
+            <div class="col-md-8">
+                <h2>Product List</h2>
+                
+                <div style = "max-height: 400px; overflow-y: auto;" >
+                    <table class="table" style="width: 100%; white-space: nowrap;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>MRP</th>
+                                <th>Price</th>
+                                <th>Image</th>
+                                <th>Category</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for single_product in all_products %}
+                            <tr>
+                                <td>{{single_product.product}}</td>
+                                <td>{{single_product.mrp}}</td>
+                                <td>{{single_product.actual_price}}</td>
+                                <td>{{single_product.product_category}}</td>
+                                <td>{{single_product.file_name}}</td>
+                                <td><button><a href="/delete/{{single_product.sno}}" type="button" class="btn btn-danger">Delete</button></td>
+
+                            </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+            
+          
+        </div>
+        
+        <!-- Orders -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <h2>Orders</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>MRP</th>
+                            <th>Actual Price</th>
+                            <th>Image</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populate this table with data from your database -->
+                        <!-- Use a server-side framework (e.g., Flask) to fetch and display data -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
