@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 {% for product in all_products %}
-                    {% if product.product_category == "Food" %}
+                    {% if product.product_category == "Large Collar" %}
                         <div class="col-md-4 col-sm-12 mb-3" id="collection-image-{{ product.sno }}">
                             <img src="{{ url_for('static', filename='imgs/' + product.file_name) }}" class="img-thumbnail" alt="...">
                             <h4>{{ product.product }}</h4>

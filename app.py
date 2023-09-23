@@ -5,7 +5,7 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/Users/mehulbatra/Desktop/Programming/Python Addy/Flask/Hooman-Website/uploads'
+app.config['UPLOAD_FOLDER'] = '/Users/mehulbatra/Desktop/Programming/Python Addy/Flask/Hooman-Website/static/imgs'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///admin.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -23,7 +23,7 @@ class myStock(db.Model):
         return f"{self.sno} - {self.title}"
 
 
-db.create_all()
+# db.cre    ate_all()
 
 
 def allowed_file(filename):
@@ -43,11 +43,25 @@ def about():
 
 
 @app.route("/collection/dogfood", methods=["POST", "GET"])
-def collection():
+def dogfood():
 
     all_products =  myStock.query.all()
 
     return render_template("Dog_Food.html",all_products=all_products)
+
+@app.route("/collection/large_collar", methods=["POST", "GET"])
+def largecollar():
+
+    all_products =  myStock.query.all()
+
+    return render_template("Large_Collar.html",all_products=all_products)
+
+@app.route("/collection/small_collar", methods=["POST", "GET"])
+def smallcollar():
+
+    all_products =  myStock.query.all()
+
+    return render_template("Small_Collar.html",all_products=all_products)
 
 
 @app.route("/checkout", methods=["POST", "GET"])
